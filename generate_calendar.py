@@ -19,5 +19,5 @@ def generate_urls_d0_to_d150():
 
 
 for url in generate_urls_d0_to_d150():
-    print(url)
-    print(get_readings(url)[1])
+    print(get_readings(url))
+    print("\n")
