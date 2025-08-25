@@ -1,10 +1,14 @@
 import requests
 import re
 from os.path import isfile
+from os import listdir, mkdir
 
 patterns = [r' <P><a name="...">..<\/A>&nbsp;', r' <P><a name="...">.<\/A>&nbsp;', r'<BR></P>', r'</P>']
 
-def get_list(url):
+
+# get all text lines in a given page, e.g. 'https://sacred-texts.com/bib/vul/luk0'
+
+def get_lines(url):
     r = requests.get(url)
     if r.status_code == '404':
         return []
@@ -23,40 +27,46 @@ def get_list(url):
             new_lines.append(line)
         return new_lines
 
-def write_to_file(filename, my_list, chapter):
+# add the new_lines related to chapter to the file, whether it already exists or not
+
+def write_to_file(filename, new_lines, chapter):
     if isfile(filename):
         with open(filename, 'r', encoding = 'utf-8') as f:
-            my_lines = f.readlines()
+            lines = f.readlines()
     else:
-        my_lines = []
+        lines = []
         
-    my_lines += [f'{chapter},{my_list.index(line) + 1},{line}\n' for line in my_list]
+    lines += [f'{chapter},{new_lines.index(line) + 1},{line}\n' for line in new_lines]
     
     with open(filename, 'w', encoding = 'utf-8') as f:
-        f.writelines(my_lines)
+        f.writelines(lines)
     
-    
-urls = {"lucas" : 'https://sacred-texts.com/bib/vul/luk0',
-       "matthaeus" : 'https://sacred-texts.com/bib/vul/mat0',
-       "marcus" : 'https://sacred-texts.com/bib/vul/mar0',
-       "ioannes" : 'https://sacred-texts.com/bib/vul/joh0'}
 
-for evangelist in urls.keys():
-    filename = f'txt\\{evangelist[0:3]}_lat.txt'
-    i = 1
-    if i < 10:
-        i_str = f'0{str(i)}'
-    else:
-        i_str = str(i)
-        
-    while get_list(urls[evangelist] + f'{i_str}.htm') != []:
-        my_lines = get_list(urls[evangelist] + f'{i_str}.htm')
-        write_to_file(filename, my_lines, i)
-        
-        i += 1
+if __name__ == '__main__':
+    urls = {"lucas" : 'https://sacred-texts.com/bib/vul/luk0',
+            "matthaeus" : 'https://sacred-texts.com/bib/vul/mat0',
+            "marcus" : 'https://sacred-texts.com/bib/vul/mar0',
+            "ioannes" : 'https://sacred-texts.com/bib/vul/joh0'}
+
+    if not 'txt' in listdir():
+        mkdir('txt')
+
+    for evangelist in urls.keys():
+        filename = f'txt/{evangelist[0:3]}_lat.txt'
+        i = 1
         if i < 10:
             i_str = f'0{str(i)}'
         else:
             i_str = str(i)
-    
-    print(f'{filename} created.')
+            
+        while get_lines(urls[evangelist] + f'{i_str}.htm') != []:
+            lines = get_lines(urls[evangelist] + f'{i_str}.htm')
+        
+            write_to_file(filename, lines, i)
+            breakpoint() 
+            i += 1
+            if i < 10:
+                i_str = f'0{str(i)}'
+            else:
+                i_str = str(i)
+        print(f'{filename} created.')
