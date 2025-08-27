@@ -6,7 +6,7 @@ from os import listdir, mkdir
 patterns = [r' <P><a name="...">..<\/A>&nbsp;', r' <P><a name="...">.<\/A>&nbsp;', r'<BR></P>', r'</P>']
 
 
-# get all text lines in a given page, e.g. 'https://sacred-texts.com/bib/vul/luk0'
+# get all text lines in a given page, e.g. 'https://sacred-texts.com/bib/vul/luk001.htm'
 
 def get_lines(url):
     r = requests.get(url)
@@ -36,37 +36,43 @@ def write_to_file(filename, new_lines, chapter):
     else:
         lines = []
         
-    lines += [f'{chapter},{new_lines.index(line) + 1},{line}\n' for line in new_lines]
+    lines += [f'{chapter}|{new_lines.index(line) + 1}|{line}\n' for line in new_lines]
     
     with open(filename, 'w', encoding = 'utf-8') as f:
         f.writelines(lines)
     
 
 if __name__ == '__main__':
-    urls = {"lucas" : 'https://sacred-texts.com/bib/vul/luk0',
-            "matthaeus" : 'https://sacred-texts.com/bib/vul/mat0',
-            "marcus" : 'https://sacred-texts.com/bib/vul/mar0',
-            "ioannes" : 'https://sacred-texts.com/bib/vul/joh0'}
+    urls = {"luc" : 'https://sacred-texts.com/bib/vul/luk0',
+            "mat" : 'https://sacred-texts.com/bib/vul/mat0',
+            "mar" : 'https://sacred-texts.com/bib/vul/mar0',
+            "ioa" : 'https://sacred-texts.com/bib/vul/joh0'}
 
     if not 'txt' in listdir():
         mkdir('txt')
 
     for evangelist in urls.keys():
-        filename = f'txt/{evangelist[0:3]}_lat.txt'
+        filename = f'txt/{evangelist}_lat.txt'
         i = 1
         if i < 10:
             i_str = f'0{str(i)}'
         else:
             i_str = str(i)
-            
+    
+        file_created = False
         while get_lines(urls[evangelist] + f'{i_str}.htm') != []:
             lines = get_lines(urls[evangelist] + f'{i_str}.htm')
-        
+            
             write_to_file(filename, lines, i)
-            breakpoint() 
             i += 1
             if i < 10:
                 i_str = f'0{str(i)}'
             else:
                 i_str = str(i)
-        print(f'{filename} created.')
+
+            if not file_created:
+                print(f'{filename} created.')
+                file_created = True
+
+        if file_created == False:
+            print(f'{filename} not created.')
