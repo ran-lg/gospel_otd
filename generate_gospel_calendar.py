@@ -46,7 +46,7 @@ def generate_urls_alpha(alpha = 10):
     
     return days
 
-# extracts the gospel for a given day url, e.g. 'Mt 23, 13-22'
+# extracts the gospel for a given day url, e.g. 'Mt 23,13-22'
 
 def get_gospel_otd(url):
     r = requests.get(url)
@@ -61,8 +61,6 @@ def get_gospel_otd(url):
             my_str = my_str.replace(u'\xa0', ' ')
             my_str = my_str.replace('...', ' ')
             my_str = my_str.replace('–', '-')
-            my_str = my_str.replace(', ', ',')
-           
             my_str = my_str.replace(' - ', '-')
             
             while '  ' in my_str:
@@ -75,6 +73,38 @@ def get_gospel_otd(url):
             return my_str
     return ''
 
+# if delta = 2 and today's date is 25/08/2025,
+#
+#   generate [{'date': 2025-08-23, 'gospel_otd': 'Lc 4, 31-37'}, 
+#             {'date': 2025-08-24, 'gospel_otd': 'Mt 1, 20-30'}, 
+#             {'date': 2025-08-25, 'gospel_otd': 'Jn 5, 10-29'}, 
+#             {'date': 2025-08-26, 'gospel_otd': 'Mc 3, 10-15'}, 
+#             {'date': 2025-08-27, 'gospel_otd': 'Lc 16, 21-25'}] 
+
+def get_gospel_delta(delta = 10):
+    dict_list = generate_urls_delta(delta)
+
+    for my_dict in dict_list:
+        my_dict['gospel_otd'] = get_gospel_otd(my_dict['url'])
+        my_dict.pop('url')
+
+    return dict_list
+
+# if delta = 2 and today's date is 25/08/2025,
+#
+#   generate [{'date': 2025-08-25, 'gospel_otd': 'Lc 4, 31-37'}, 
+#             {'date': 2025-08-26, 'gospel_otd': 'Mt 1, 20-30'}, 
+#             {'date': 2025-08-27, 'gospel_otd': 'Jn 5, 10-29'}, 
+
+def get_gospel_alpha(alpha = 10):
+    dict_list = generate_urls_alpha(alpha)
+
+    for my_dict in dict_list:
+        my_dict['gospel_otd'] = get_gospel_otd(my_dict['url'])
+        my_dict.pop('url')
+
+    return dict_list
+
 
 if __name__ == '__main__':
     try:
@@ -82,9 +112,5 @@ if __name__ == '__main__':
     except:
         delta = 5
 
-    dict_list = generate_urls_delta(delta)
-    for my_dict in dict_list:
-        my_dict['gospel_otd'] = get_gospel_otd(my_dict['url'])
-
-    for my_dict in dict_list:
+    for my_dict in get_gospel_delta():
         print(my_dict)
