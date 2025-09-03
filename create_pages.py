@@ -3,7 +3,7 @@ from sys import argv
 from pathlib import Path
 import re
 
-lang_list = ['lat', 'gr']
+lang_list = ['lat', 'gr', 'pl']
 
 def extract_lines(lang, eva, chapter, verses):
     source_filename = Path('txt') / f'{eva}_{lang}.txt'
@@ -83,7 +83,6 @@ if __name__ == '__main__':
         nb = int(argv[2])
     except:
         nb = 5
-
 
     if mode == '-d':
         days = get_gospel_delta(nb)
