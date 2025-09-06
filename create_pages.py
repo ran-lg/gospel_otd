@@ -8,7 +8,7 @@ lang_list = ['lat', 'gr', 'pl']
 def extract_lines(lang, eva, chapter, verses):
     source_filename = Path('txt') / f'{eva}_{lang}.txt'
 
-    with open(source_filename, 'r') as f:
+    with open(source_filename, 'r', encoding = 'utf-8') as f:
         return [line.replace(f'{str(chapter)}|{str(verse)}|', '')
                     .replace('\n', '')
                      for line in f.readlines()
@@ -94,6 +94,3 @@ if __name__ == '__main__':
             create_html(day)
     else:
         print('Choose a mode: -d (delta) or -a (alpha).')
-
-
-
