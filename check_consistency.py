@@ -21,6 +21,14 @@ def get_nb_chapters(filename):
         last_line = f.readlines()[-1]
         return last_line[:last_line.find('|')]
 
+def get_nb_verses_per_chapter(filename, chapter):
+    nb_verses = 0
+    with open(Path('txt') / filename, 'r', encoding = 'utf-8') as f:
+        for line in f.readlines():
+            if line[:line.find('|')] == str(chapter):
+                nb_verses += 1
+    return nb_verses
+                
 
 if __name__ == '__main__':
     files = [file for file in listdir('txt') if file.endswith('.txt')]
@@ -28,18 +36,23 @@ if __name__ == '__main__':
     evas = set([extract_eva(file) for file in files])
     langs = set([extract_lang(file) for file in files])
     
-    # display the number of chapters per language, per evangelist
+    print('\nNumber of chapters per language, per evangelist\n')
 
     my_tab = []
+    nb_chapter_max = 0
     for lang in langs:
         chapter_stats = [lang]
         for eva in evas:
-            chapter_stats.append(get_nb_chapters(f'{eva}_{lang}.txt'))
+            nb_chapters = get_nb_chapters(f'{eva}_{lang}.txt')
+            chapter_stats.append(nb_chapters)
+            
+            if int(nb_chapters) > nb_chapter_max:
+                nb_chapter_max = int(nb_chapters)
         my_tab.append(chapter_stats)
     
     print(tabulate(my_tab, headers = evas) + '\n')
 
-    # display the number of lines per language, per evangelist
+    print('\nNumber of lines per language, per evangelist\n')
 
     my_tab = []
     for lang in langs:
@@ -47,5 +60,18 @@ if __name__ == '__main__':
         for eva in evas:
             line_stats.append(get_nb_lines(f'{eva}_{lang}.txt'))
         my_tab.append(line_stats)
+    
+    print(tabulate(my_tab, headers = evas))
+
+    print('\nNumber of lines per language/chapter, per evangelist\n')
+
+    my_tab = []
+    for chapter in range(1, nb_chapter_max + 1):
+        for lang in langs:
+            line_stats = [f'{lang}_{chapter}']
+            for eva in evas:
+                    line_stats.append(get_nb_verses_per_chapter(f'{eva}_{lang}.txt', chapter))
+            my_tab.append(line_stats)
+        my_tab.append(['-'] * 5)
     
     print(tabulate(my_tab, headers = evas))
