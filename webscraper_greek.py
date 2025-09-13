@@ -2,8 +2,8 @@ import requests
 import re
 from os.path import isfile
 from os import listdir, mkdir
-from random import randint
 from time import sleep
+from random import randint
 
 patterns = [r' <P><a name="...">..<\/A>&nbsp;', r' <P><a name="...">.<\/A>&nbsp;', r'<BR></P>', r'</P>']
 

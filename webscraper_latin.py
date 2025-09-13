@@ -12,6 +12,7 @@ patterns = [r' <P><a name="...">..<\/A>&nbsp;', r' <P><a name="...">.<\/A>&nbsp;
 
 def get_lines(url):
     r = requests.get(url)
+    r.encoding = 'utf-8'
     if r.status_code == '404':
         return []
     else:
