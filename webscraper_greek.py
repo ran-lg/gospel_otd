@@ -55,7 +55,7 @@ if __name__ == '__main__':
         mkdir('txt')
 
     for evangelist in urls.keys():
-        filename = f'txt/{evangelist}_gr.txt'
+        filename = f'app/txt/{evangelist}_gr.txt'
         i = 1
         if i < 10:
             i_str = f'0{str(i)}'
