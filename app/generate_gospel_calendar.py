@@ -112,5 +112,5 @@ if __name__ == '__main__':
     except:
         delta = 5
 
-    for my_dict in get_gospel_delta():
+    for my_dict in get_gospel_delta(delta = delta):
         print(my_dict)
