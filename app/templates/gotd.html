@@ -1,18 +1,15 @@
-<!doctype html>
-<html>
-    <head>
-        <title>Multilingual gospel of the day</title>
-    </head>
-    <body>
-        <h1>{{ fragment }}</h1>
-			<p>
-			{% for line in lines_gotd %}
-				<table>
-					{% for key in line %}
-						<tr><td>{{ line[key] }}</td></tr>
-					{% endfor %}
-				</table><br>
-			{% endfor %}
-			</p>
-    </body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ fragment }}</h1>
+<p>
+{% for line in lines_gotd %}	
+	<table>
+		{% for key in line %}
+			<tr><td>{{ line[key] }}</td></tr>
+		{% endfor %}
+		<br>
+	</table>
+{% endfor %}
+</p>
+{% endblock %}
