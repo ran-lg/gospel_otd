@@ -1,1 +1,3 @@
 venv/
+app/txt/*_*.txt
+app/__pycache__/
