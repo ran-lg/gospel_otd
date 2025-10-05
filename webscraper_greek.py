@@ -46,7 +46,7 @@ def write_to_file(filename, new_lines, chapter):
 
 
 if __name__ == '__main__':
-    urls = {"luc" : 'https://sacred-texts.com/bib/gnt/luk0',
+    urls = {"luk" : 'https://sacred-texts.com/bib/gnt/luk0',
             "mat" : 'https://sacred-texts.com/bib/gnt/mat0',
             "mar" : 'https://sacred-texts.com/bib/gnt/mar0',
             "ioa" : 'https://sacred-texts.com/bib/gnt/joh0'}

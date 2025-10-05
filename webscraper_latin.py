@@ -49,7 +49,7 @@ if __name__ == '__main__':
     urls = {"mar" : 'https://sacred-texts.com/bib/vul/mar0',
             "ioa" : 'https://sacred-texts.com/bib/vul/joh0',
 			"mat" : 'https://sacred-texts.com/bib/vul/mat0',
-			"luc" : 'https://sacred-texts.com/bib/vul/luk0'}
+			"luk" : 'https://sacred-texts.com/bib/vul/luk0'}
 
     if not 'txt' in listdir():
         mkdir('txt')
