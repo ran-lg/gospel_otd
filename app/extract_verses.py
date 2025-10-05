@@ -49,14 +49,15 @@ def get_lines_gotd(fragment):
     for lang in lang_list:
         multilingual_verses[lang] = extract_lines(lang, eva, chapter, verses)
           
-    # generate [{'lat': '...', 'gr': '...', 'pl': '...'},    
-    #           {'lat': '...', 'gr': '...', 'pl': '...'},
-    #           {'lat': '...', 'gr': '...', 'pl': '...'}]
+    # generate [{'nb': '1', 'lat': '...', 'gr': '...', 'pl': '...'},    
+    #           {'nb': '2', 'lat': '...', 'gr': '...', 'pl': '...'},
+    #           {'nb': '3', 'lat': '...', 'gr': '...', 'pl': '...'}]
     
     nb_verses = len(multilingual_verses[lang_list[0]])
     reformatted_multilingual_verses = []
     for i in range(nb_verses):
         temp = {}
+        temp['nb'] = str(verses[i])
         for lang in multilingual_verses:
             temp[lang] = multilingual_verses[lang][i]
         reformatted_multilingual_verses.append(temp)
