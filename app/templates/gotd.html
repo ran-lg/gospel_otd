@@ -2,11 +2,24 @@
 
 {% block content %}
 <h1>{{ fragment }}</h1>
+<h2>{{ date }}</h2>
+<p>
+	<form onsubmit="return false;">
+	{% for lang in lang_list %}
+	<button type="button" onclick="hideShow('{{ lang }}')">{{ lang }}</button>
+	{% endfor %}
+	</form>
+
+</p>
 <p>
 {% for line in lines_gotd %}	
 	<table>
 		{% for key in line %}
-			<tr><td>{{ line[key] }}</td></tr>
+			{% if key == 'nb' %}
+				<tr class="verse-nb-interlinear"><td>{{ line[key] }}</td></tr>
+			{% else %}	
+				<tr class="{{ 'lg-' + key }}"><td>{{ line[key] }}</td></tr>
+			{% endif %}
 		{% endfor %}
 		<br>
 	</table>
