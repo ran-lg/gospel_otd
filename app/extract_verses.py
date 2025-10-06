@@ -2,7 +2,6 @@ from sys import argv
 from pathlib import Path
 import re
 
-lang_list = ['lat', 'pl', 'gr']
 
 def extract_lines(lang, eva, chapter, verses):
     source_filename = Path('app/txt') / f'{eva}_{lang}.txt'
@@ -14,7 +13,7 @@ def extract_lines(lang, eva, chapter, verses):
                      for verse in verses
                      if line.startswith(f'{str(chapter)}|{str(verse)}|')]
 
-def get_lines_gotd(fragment):
+def get_lines_gotd(fragment, lang_list):
     # parse fragment = 'Lc 4, 31-73'
     #                = 'Lc 4, 14.31-73'
    
@@ -65,6 +64,8 @@ def get_lines_gotd(fragment):
     return reformatted_multilingual_verses
         
 if __name__ == '__main__':
+    lang_list = ['lat', 'pl', 'gr']
+    print(f'{lang_list=}\n')
     print(f"""Lc 17, 5-10
 
 {get_lines_gotd("Lc 17, 5-10")}""")
