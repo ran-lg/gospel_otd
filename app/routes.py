@@ -7,7 +7,7 @@ from app.extract_verses import get_lines_gotd
 from datetime import datetime
 
 
-lang_list = ['pl', 'lat', 'gr']
+lang_list = ['pl', 'fr', 'lat', 'gr']
 
 @app.route('/')
 def index():
